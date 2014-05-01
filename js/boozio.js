@@ -8,11 +8,19 @@ Boozio.ApplicationSerializer = DS.FirebaseSerializer.extend();
 
 Boozio.Router.map(function() {
   this.route('drinks', {path: '/'});
+  this.route('drink', {path: '/:drinkName'});
+  this.route('new', {path: '/new'});
 });
 
 Boozio.DrinksRoute = Ember.Route.extend({
   model: function(params) {
     return this.store.find('drink');
+  }
+});
+
+Boozio.DrinkRoute = Ember.Route.extend({
+  model: function(params) {
+    return this.store.find('drink', params.drink_id);
   }
 });
 

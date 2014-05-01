@@ -18,16 +18,16 @@
     {{input type="text" id="new-drink" placeholder="Enter a new drink." value=newDrinkName action="createDrink"}}
 
     <h3>Drinks</h3>
-    <ul>
-      {{#each}}
-        <li>{{drinkName}}</li>
-      {{/each}}
-    </ul>
+
+    {{#each}}
+      <p>{{#link-to 'drink' this}}{{drinkName}}{{/link-to}}</p>
+    {{/each}}
+
 
   </script>
 
-  <script type="text/x-handlebars" data-template-name="newDrink">
-
+  <script type="text/x-handlebars" id="drink">
+    Drink Name: {{drinkName}}
   </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>
