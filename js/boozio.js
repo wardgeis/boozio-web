@@ -1,15 +1,31 @@
 Boozio = Ember.Application.create();
 
+/* Let's hold off on Firebase until we're further along
+
 Boozio.ApplicationAdapter = DS.FirebaseAdapter.extend({
   firebase: new Firebase('https://boozio.firebaseio.com')
 });
 
 Boozio.ApplicationSerializer = DS.FirebaseSerializer.extend();
+*/
+
+// Load local storage adapter and local storage serializer
+Boozio.ApplicationSerializer = DS.LSSerializer.extend();
+Boozio.ApplicationAdapter = DS.LSAdapter.extend({
+  namespace: 'boozio'
+});
 
 Boozio.Router.map(function() {
   this.route('drinks', {path: '/'});
-  this.route('drink', {path: '/:drinkName'});
-  this.route('new', {path: '/new'});
+  this.route('drink', {path: '/drinks/:drink_id'});
+  this.route('new', {path: '/drinks/new'})
+});
+
+
+Boozio.IndexRoute = Ember.Route.extend({
+  beforeModel: function() {
+    this.transitionTo('drinks');
+  }
 });
 
 Boozio.DrinksRoute = Ember.Route.extend({
@@ -24,11 +40,13 @@ Boozio.DrinkRoute = Ember.Route.extend({
   }
 });
 
+Boozio.NewRoute = Ember.Route.extend({});
+
 Boozio.Drink = DS.Model.extend({
   drinkName: DS.attr('string'),
 });
 
-Boozio.DrinksController = Ember.ArrayController.extend({
+Boozio.NewController = Ember.ArrayController.extend({
   actions: {
     createDrink: function() {
       //Get the drink name set by the 'New Drink' text field
@@ -37,7 +55,7 @@ Boozio.DrinksController = Ember.ArrayController.extend({
 
       // create the new drink model
       var drink = this.store.createRecord('drink', {
-        drinkName: drinkName,
+        drinkName: drinkName
       });
 
       // Clear the 'New Drink' field
@@ -45,6 +63,7 @@ Boozio.DrinksController = Ember.ArrayController.extend({
 
       //save the new drink model
       drink.save();
+      this.transitionTo('drinks');
     }
   }
 });

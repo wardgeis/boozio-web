@@ -7,22 +7,59 @@
 </head>
 <body>
   <script type="text/x-handlebars">
-    <h2>Boozio</h2>
+    <div class="container col-md-8 col-md-offset-2">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li>{{#link-to 'drinks'}}Home{{/link-to}}</li>
+          <li>{{#link-to 'new'}}New{{/link-to}}</li>
+        </ul>
+        <h3 class="text-muted">Boozio <small>get your drink on, on the interwebs.</small></h3>
+      </div>
 
-    {{outlet}}
+      <hr />
+
+      <div class="12">
+
+        {{outlet}}
+
+      </div>
+
+      <div class="footer">
+        <p>&copy; Boozio 2014</p>
+      </div>
+    </div>
+
   </script>
 
-  <script type="text/x-handlebars" id="drinks">
-    <p>This is the index page.</p>
 
-    {{input type="text" id="new-drink" placeholder="Enter a new drink." value=newDrinkName action="createDrink"}}
+
+  <script type="text/x-handlebars" id="drinks">
 
     <h3>Drinks</h3>
+    <br />
 
     {{#each}}
-      <p>{{#link-to 'drink' this}}{{drinkName}}{{/link-to}}</p>
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img src="./assets/boozioFPO.png" class="img-thumbnail">
+        </a>
+        <div class="media-body">
+          <h4>{{#link-to 'drink' this}}{{drinkName}}{{/link-to}}</h4>
+          <p>This is a description of this drink.</p>
+        </div>
+      </div>
+      <br />
+      <hr />
     {{/each}}
 
+
+  </script>
+
+  <script type="text/x-handlebars" id="new">
+    <h1>Hey! You made it!</h1>
+    <p>Create a new drink.</p>
+
+    {{input type="text" id="new-drink" classNames="form-control" placeholder="Enter a new drink." value=newDrinkName action="createDrink"}}
 
   </script>
 
@@ -30,12 +67,19 @@
     Drink Name: {{drinkName}}
   </script>
 
+  <!-- JSville -->
   <script src="js/libs/jquery-1.10.2.js"></script>
   <script src="js/libs/handlebars-1.1.2.js"></script>
   <script src="js/libs/ember-1.5.1.js"></script>
   <script src="js/libs/ember-data.js"></script>
+  <script src="js/libs/bootstrap.js"></script>
+  <script src="js/libs/localstorage_adapter.js"></script>
+
+  <!-- firebase disabled for now
   <script src="js/libs/firebase.js"></script>
   <script src="js/libs/emberfire.js"></script>
+  -->
+
   <script src="js/boozio.js"></script>
   <!-- to activate the test runner, add the "?test" query string parameter -->
   <script src="tests/runner.js"></script>
