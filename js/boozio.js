@@ -44,6 +44,7 @@ Boozio.NewRoute = Ember.Route.extend({});
 
 Boozio.Drink = DS.Model.extend({
   drinkName: DS.attr('string'),
+  description: DS.attr('string')
 });
 
 Boozio.NewController = Ember.ArrayController.extend({
@@ -53,9 +54,12 @@ Boozio.NewController = Ember.ArrayController.extend({
       var drinkName = this.get('newDrinkName');
       if (!drinkName.trim()) {return; }
 
+      var description = this.get('newDescription');
+
       // create the new drink model
       var drink = this.store.createRecord('drink', {
-        drinkName: drinkName
+        drinkName: drinkName,
+        description: description
       });
 
       // Clear the 'New Drink' field

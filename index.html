@@ -45,7 +45,7 @@
         </a>
         <div class="media-body">
           <h4>{{#link-to 'drink' this}}{{drinkName}}{{/link-to}}</h4>
-          <p>This is a description of this drink.</p>
+          <p>{{description}}</p>
         </div>
       </div>
       <br />
@@ -59,7 +59,8 @@
     <h1>Hey! You made it!</h1>
     <p>Create a new drink.</p>
 
-    {{input type="text" id="new-drink" classNames="form-control" placeholder="Enter a new drink." value=newDrinkName action="createDrink"}}
+    <p>{{input type="text" classNames="form-control" placeholder="Enter a new drink." value=newDrinkName action="createDrink"}}</p>
+    <p>{{input type="text" classNames="form-control" placeholder="Enter a description." value=newDescription action="createDrink"}}</p>
 
   </script>
 
