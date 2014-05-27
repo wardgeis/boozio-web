@@ -71,3 +71,11 @@ Boozio.NewController = Ember.ArrayController.extend({
     }
   }
 });
+
+Boozio.DrinkController = Ember.ObjectController.extend({
+  doDeleteDrink: function(drink) {
+     this.store.deleteRecord(drink);
+     drink.save();
+     this.transitionTo('drinks');
+  }
+})
