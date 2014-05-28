@@ -11,7 +11,8 @@
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li>{{#link-to 'drinks'}}Home{{/link-to}}</li>
-          <li>{{#link-to 'new'}}New{{/link-to}}</li>
+          <li>{{#link-to 'ingredients'}}Ingredients{{/link-to}}</li>
+          <li>{{#link-to 'newdrink'}}New Drink{{/link-to}}</li>
         </ul>
         <h3 class="text-muted">Boozio <small>get your drink on, on the interwebs.</small></h3>
       </div>
@@ -54,20 +55,48 @@
 
   </script>
 
-  <script type="text/x-handlebars" id="new">
-    <h1>Hey! You made it!</h1>
-    <p>Create a new drink.</p>
+  <script type="text/x-handlebars" id="newdrink">
+    <h3>Create a new drink.</h3>
 
     <p>{{input type="text" classNames="form-control" placeholder="Enter a new drink." value=newDrinkName action="createDrink"}}</p>
     <p>{{input type="text" classNames="form-control" placeholder="Enter a description." value=newDescription action="createDrink"}}</p>
-
   </script>
 
   <script type="text/x-handlebars" id="drink">
-    Drink Name: {{drinkName}}
+    <button class="btn btn-danger btn-xs pull-right" {{action "doDeleteDrink" this}}>Delete</button>
+    <h2>{{drinkName}}</h2>
+    {{description}}
+  </script>
 
-    <button class="btn btn-danger btn-xs" {{action "doDeleteDrink" this}}>Delete</button>
+  <script type="text/x-handlebars" id="ingredients">
+    {{#link-to 'newingredient'}}New Ingredient{{/link-to}}
 
+
+    <h3>Ingredients</h3>
+    <br />
+
+    {{#each}}
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img src="./assets/boozioFPO.png" class="img-thumbnail">
+        </a>
+        <div class="media-body">
+          <h4>{{#link-to 'ingredient' this}}{{ingredientName}}{{/link-to}}</h4>
+        </div>
+      </div>
+      <hr />
+    {{/each}}
+  </script>
+
+  <script type="text/x-handlebars" id="newingredient">
+    <p>Create a new ingredient.</p>
+
+    <p>{{input type="text" classNames="form-control" placeholder="Enter a new ingredient." value=newIngredientName action="createIngredient"}}</p>
+  </script>
+
+  <script type="text/x-handlebars" id="ingredient">
+    <button class="btn btn-danger btn-xs" {{action "doDeleteIngredient" this}}>Delete</button>
+    Drink Name: {{ingredientName}}
   </script>
 
   <!-- JSville -->

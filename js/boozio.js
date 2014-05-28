@@ -16,9 +16,12 @@ Boozio.ApplicationAdapter = DS.LSAdapter.extend({
 });
 
 Boozio.Router.map(function() {
-  this.route('drinks', {path: '/'});
+  this.route('drinks', {path: '/drinks'});
   this.route('drink', {path: '/drinks/:drink_id'});
-  this.route('new', {path: '/drinks/new'})
+  this.route('newdrink', {path: '/drinks/newdrink'});
+  this.route('ingredients', {path: '/ingredients'});
+  this.route('ingredient', {path: '/ingredients/:ingredient_id'});
+  this.route('newingredient', {path: '/ingredients/new'});
 });
 
 
@@ -40,14 +43,32 @@ Boozio.DrinkRoute = Ember.Route.extend({
   }
 });
 
-Boozio.NewRoute = Ember.Route.extend({});
+Boozio.IngredientsRoute = Ember.Route.extend({
+  model: function(params) {
+    return this.store.find('ingredient');
+  }
+});
+
+Boozio.IngredientRoute = Ember.Route.extend({
+  model: function(params) {
+    return this.store.find('ingredient', params.drink_id);
+  }
+});
+
+Boozio.NewdrinkRoute = Ember.Route.extend({});
+
+Boozio.NewingredientRoute = Ember.Route.extend({});
 
 Boozio.Drink = DS.Model.extend({
   drinkName: DS.attr('string'),
   description: DS.attr('string')
 });
 
-Boozio.NewController = Ember.ArrayController.extend({
+Boozio.Ingredient = DS.Model.extend({
+  ingredientName: DS.attr('string'),
+});
+
+Boozio.NewdrinkController = Ember.ArrayController.extend({
   actions: {
     createDrink: function() {
       //Get the drink name set by the 'New Drink' text field
@@ -67,7 +88,29 @@ Boozio.NewController = Ember.ArrayController.extend({
 
       //save the new drink model
       drink.save();
-      this.transitionTo('drinks');
+      this.transitionToRoute('drinks');
+    }
+  }
+});
+
+Boozio.NewingredientController = Ember.ArrayController.extend({
+  actions: {
+    createIngredient: function() {
+      //Get the ingredient name set by the 'New Ingredient' text field
+      var ingredientName = this.get('newIngredientName');
+      if (!ingredientName.trim()) {return; }
+
+      // create the new ingredient model
+      var ingredient = this.store.createRecord('ingredient', {
+        ingredientName: ingredientName,
+      });
+
+      // Clear the 'New Ingredient' field
+      this.set('newingredientName', '');
+
+      //save the new ingredient model
+      ingredient.save();
+      this.transitionToRoute('ingredients');
     }
   }
 });
@@ -76,6 +119,14 @@ Boozio.DrinkController = Ember.ObjectController.extend({
   doDeleteDrink: function(drink) {
      this.store.deleteRecord(drink);
      drink.save();
-     this.transitionTo('drinks');
+     this.transitionToRoute('drinks');
   }
-})
+});
+
+Boozio.IngredientController = Ember.ObjectController.extend({
+  doDeleteIngredient: function(ingredient) {
+     this.store.deleteRecord(ingredient);
+     ingredient.save();
+     this.transitionToRoute('ingredients');
+  }
+});
