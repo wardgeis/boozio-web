@@ -61,11 +61,13 @@ Boozio.NewingredientRoute = Ember.Route.extend({});
 
 Boozio.Drink = DS.Model.extend({
   drinkName: DS.attr('string'),
-  description: DS.attr('string')
+  description: DS.attr('string'),
+  ingredients: DS.hasMany('ingredient')
 });
 
 Boozio.Ingredient = DS.Model.extend({
   ingredientName: DS.attr('string'),
+  drinks: DS.hasMany('drink')
 });
 
 Boozio.NewdrinkController = Ember.ArrayController.extend({
